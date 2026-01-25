@@ -1,8 +1,9 @@
 import Sequelize from 'sequelize'
 import configDataBase from '../config/database.js'
 import Category from '../../models/Category.js'
+import Items from '../models/Items.js'
 
-const models = [Category]
+const models = [Category, Items]
 
 class Database {
   constructor() {

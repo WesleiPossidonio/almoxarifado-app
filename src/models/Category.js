@@ -14,9 +14,12 @@ class Category extends Model {
     return this
   }
 
-  // static associate(models) {
-  // há relacionamentos aqui no futuro
-  // }
+  static associate(models) {
+    this.hasMany(models.Items, {
+      foreignKey: 'category_id',
+      as: 'items',
+    })
+  }
 }
 
 export default Category
