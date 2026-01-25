@@ -19,6 +19,7 @@
     "pg": "^8.17.2",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.7",
+    "validator": "^13.15.26",
     "yup": "^1.7.1"
   },
   "devDependencies": {

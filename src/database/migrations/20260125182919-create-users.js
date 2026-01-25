@@ -28,6 +28,11 @@ module.exports = {
         allowNull: false,
         defaultValue: 'user',
       },
+      update_number: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        defaultValue: '',
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
