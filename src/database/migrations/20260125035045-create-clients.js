@@ -15,6 +15,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      number_service: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

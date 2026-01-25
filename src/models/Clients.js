@@ -11,6 +11,7 @@ class Clients extends Model {
           primaryKey: true,
         },
         name: Sequelize.STRING,
+        number_service: Sequelize.STRING,
       },
       {
         sequelize,
