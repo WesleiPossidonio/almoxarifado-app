@@ -39,6 +39,11 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      control_level: {
+        type: Sequelize.ENUM('FREE', 'RESTRICTED'),
+        allowNull: false,
+        defaultValue: 'FREE',
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,

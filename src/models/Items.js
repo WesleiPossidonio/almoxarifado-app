@@ -10,31 +10,13 @@ class Items extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        category_id: {
-          type: Sequelize.INTEGER,
-        },
-        item_name: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        unit: {
-          type: Sequelize.STRING,
-          allowNull: false,
-        },
-        quantity: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          defaultValue: 0,
-        },
-        min_quantity: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          defaultValue: 8,
-        },
-        location: {
-          type: Sequelize.STRING,
-          allowNull: true,
-        },
+        category_id: Sequelize.INTEGER,
+        control_level: Sequelize.ENUM('FREE', 'RESTRICTED'),
+        item_name: Sequelize.STRING,
+        unit: Sequelize.STRING,
+        quantity: Sequelize.INTEGER,
+        min_quantity: Sequelize.INTEGER,
+        location: Sequelize.STRING,
       },
       {
         sequelize,
