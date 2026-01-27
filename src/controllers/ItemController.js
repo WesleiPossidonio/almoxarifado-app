@@ -10,6 +10,7 @@ class ItemController {
       quantity: Yup.number().required(),
       min_quantity: Yup.number().required(),
       location: Yup.string().nullable(),
+      code: Yup.string().required(),
     })
 
     try {
@@ -20,7 +21,8 @@ class ItemController {
         .json({ error: 'Validation fails', messages: err.inner })
     }
 
-    const { item_name, name, unit, quantity, min_quantity, location } = req.body
+    const { item_name, name, unit, quantity, min_quantity, location, code } =
+      req.body
 
     const itemExists = await Items.findOne({ where: { item_name } })
 
@@ -35,6 +37,7 @@ class ItemController {
       quantity,
       min_quantity,
       location,
+      code,
     })
 
     return res.json(item)
@@ -54,6 +57,7 @@ class ItemController {
       quantity: Yup.number(),
       min_quantity: Yup.number(),
       location: Yup.string().nullable(),
+      code: Yup.string(),
     })
 
     try {
