@@ -11,7 +11,7 @@ module.exports = {
         primaryKey: true,
       },
       category_id: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         allowNull: false,
         references: { model: 'category', key: 'id' },
         onUpdate: 'CASCADE',
@@ -24,6 +24,11 @@ module.exports = {
       unit: {
         type: Sequelize.STRING,
         allowNull: false,
+      },
+      code: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       quantity: {
         type: Sequelize.INTEGER,
@@ -47,10 +52,12 @@ module.exports = {
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
       updated_at: {
         type: Sequelize.DATE,
         allowNull: false,
+        defaultValue: Sequelize.NOW,
       },
     })
   },

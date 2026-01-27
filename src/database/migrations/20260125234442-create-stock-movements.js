@@ -10,7 +10,6 @@ module.exports = {
         allowNull: false,
         primaryKey: true,
       },
-
       item_id: {
         type: Sequelize.UUID,
         allowNull: false,

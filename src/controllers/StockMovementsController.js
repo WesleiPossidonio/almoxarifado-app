@@ -8,27 +8,30 @@ class StockMovementsController {
       item_id: Yup.string().uuid().required(),
       movement_type: Yup.string().oneOf(['IN', 'OUT']).required(),
       quantity: Yup.number().positive().required(),
-      client_id: Yup.string().uuid().when('movement_type', {
-        is: 'OUT',
-        then: Yup.string().uuid().required(),
-        otherwise: Yup.string().nullable(),
-      }),
+      client_id: Yup.string()
+        .uuid()
+        .when('movement_type', {
+          is: 'OUT',
+          then: (schema) => schema.required(),
+          otherwise: (schema) => schema.nullable(),
+        }),
       withdrawn_by: Yup.string().when('movement_type', {
         is: 'OUT',
-        then: Yup.string().required(),
+        then: (schema) => schema.required(),
+        otherwise: (schema) => schema.nullable(),
       }),
-      note: Yup.string(),
     })
 
     try {
       await schema.validate(req.body, { abortEarly: false })
     } catch (err) {
-      return res
-        .status(400)
-        .json({ error: 'Validation fails', messages: err.inner })
+      return res.status(400).json({
+        error: 'Validation fails',
+        messages: err.inner,
+      })
     }
 
-    const { item_id, movement_type, quantity, client_id, withdrawn_by, note } =
+    const { item_id, movement_type, quantity, client_id, withdrawn_by } =
       req.body
 
     const item = await Items.findByPk(item_id)
@@ -37,18 +40,22 @@ class StockMovementsController {
       return res.status(404).json({ error: 'Item not found.' })
     }
 
-    // 🔴 Regra: saída não pode deixar estoque negativo
+    // 🔴 Regra de negócio: não deixar estoque negativo
     if (movement_type === 'OUT' && item.quantity < quantity) {
       return res.status(400).json({
         error: 'Insufficient stock.',
       })
     }
 
-    // 🔐 Regra: item caro exige admin logado
-    let authorizedBy = null
+    /**
+     * 🔐 Autorização
+     * - itens comuns: qualquer um registra
+     * - itens restritos: precisa admin logado
+     */
+    let authorizedBy = 'SYSTEM'
 
     if (movement_type === 'OUT' && item.control_level === 'RESTRICTED') {
-      if (!req.user) {
+      if (!req.user || req.user.role !== 'admin') {
         return res.status(401).json({
           error: 'This item requires administrator authorization.',
         })
@@ -74,15 +81,14 @@ class StockMovementsController {
       client_id: movement_type === 'OUT' ? client_id : null,
       withdrawn_by: movement_type === 'OUT' ? withdrawn_by : null,
       authorized_by: authorizedBy,
-      note,
     })
 
-    return res.json(stockMovement)
+    return res.status(201).json(stockMovement)
   }
 
   async index(req, res) {
     const movements = await StockMovements.findAll({
-      order: [['created_at', 'DESC']],
+      order: [['createdAt', 'DESC']],
     })
 
     return res.json(movements)
