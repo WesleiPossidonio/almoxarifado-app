@@ -12,6 +12,7 @@ class Clients extends Model {
         },
         name: Sequelize.STRING,
         number_service: Sequelize.STRING,
+        notes: Sequelize.TEXT,
       },
       {
         sequelize,

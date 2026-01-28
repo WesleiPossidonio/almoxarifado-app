@@ -6,6 +6,7 @@ class ClientController {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
       number_service: Yup.string().required(),
+      notes: Yup.string(),
     })
 
     try {
@@ -16,7 +17,7 @@ class ClientController {
         .json({ error: 'Validation fails', messages: err.inner })
     }
 
-    const { name, number_service } = req.body
+    const { name, number_service, notes } = req.body
 
     const clientExists = await Clients.findOne({ where: { number_service } })
 
@@ -24,7 +25,7 @@ class ClientController {
       return res.status(400).json({ error: 'Client already exists.' })
     }
 
-    const client = await Clients.create({ name, number_service })
+    const client = await Clients.create({ name, number_service, notes })
 
     return res.json(client)
   }
