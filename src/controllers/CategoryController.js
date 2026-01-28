@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import Category from '../models/Category'
+import Category from '../models/Category.js'
 class CategoryController {
   async store(req, res) {
     const schema = Yup.object().shape({

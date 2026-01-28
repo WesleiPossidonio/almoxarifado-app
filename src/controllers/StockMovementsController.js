@@ -1,7 +1,7 @@
 import * as Yup from 'yup'
-import sequelize from '../../database'
-import StockMovements from '../models/StockMovements'
-import Items from '../models/Items'
+import sequelize from '../database/index.js'
+import StockMovements from '../models/StockMovements.js'
+import Items from '../models/Items.js'
 
 class StockMovementsController {
   async store(req, res) {

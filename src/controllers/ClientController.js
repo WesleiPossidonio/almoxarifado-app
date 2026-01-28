@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import Clients from '../models/Clients'
+import Clients from '../models/Clients.js'
 
 class ClientController {
   async store(req, res) {

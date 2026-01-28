@@ -14,7 +14,7 @@ const sanitizeInput = (data) => {
   return sanitizedData
 }
 
-class UserController {
+class UsersController {
   async store(request, response) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
@@ -136,4 +136,4 @@ class UserController {
   }
 }
 
-export default new UserController()
+export default new UsersController()

@@ -1,16 +1,16 @@
 import * as Yup from 'yup'
-import Items from '../models/Items'
+import Items from '../models/Items.js'
 
 class ItemController {
   async store(req, res) {
     const schema = Yup.object().shape({
       item_name: Yup.string().required(),
-      name: Yup.string().required(),
       unit: Yup.string().required(),
       quantity: Yup.number().required(),
       min_quantity: Yup.number().required(),
       location: Yup.string().nullable(),
       code: Yup.string().required(),
+      control_level: Yup.string().required(),
     })
 
     try {
@@ -21,8 +21,7 @@ class ItemController {
         .json({ error: 'Validation fails', messages: err.inner })
     }
 
-    const { item_name, name, unit, quantity, min_quantity, location, code } =
-      req.body
+    const { item_name, unit, quantity, min_quantity, location, code } = req.body
 
     const itemExists = await Items.findOne({ where: { item_name } })
 
@@ -32,7 +31,6 @@ class ItemController {
 
     const item = await Items.create({
       item_name,
-      name,
       unit,
       quantity,
       min_quantity,
@@ -52,7 +50,6 @@ class ItemController {
     const { id } = req.params
     const schema = Yup.object().shape({
       item_name: Yup.string(),
-      name: Yup.string(),
       unit: Yup.string(),
       quantity: Yup.number(),
       min_quantity: Yup.number(),
@@ -101,6 +98,22 @@ class ItemController {
     await item.destroy()
 
     return res.status(204).send()
+  }
+
+  async findByCode(req, res) {
+    const { code } = req.params
+
+    const item = await Items.findOne({
+      where: {
+        code,
+      },
+    })
+
+    if (!item) {
+      return res.status(404).json({ error: 'Item not found' })
+    }
+
+    return res.json(item)
   }
 }
 

@@ -6,6 +6,7 @@ import SessionsController from './controllers/SessionsController'
 import StockMovementsController from './controllers/StockMovementsController'
 
 import authMiddlewares from './meddleawares/auth.js'
+import UsersController from './controllers/UsersController.js'
 
 const routes = new Router()
 console.log('Routes file loaded')
@@ -25,10 +26,15 @@ routes.post('/clients', ClientController.store)
 routes.get('/clients', ClientController.index)
 routes.delete('/clients/:id', ClientController.delete)
 
+routes.post('/users', UsersController.store)
+routes.get('/users', UsersController.index)
+routes.delete('/users/:id', UsersController.delete)
+
 routes.post('/items', ItemController.store)
 routes.get('/items', ItemController.index)
 routes.put('/items/:id', ItemController.update)
 routes.delete('/items/:id', ItemController.delete)
+routes.get('/items/code/:code', ItemController.findByCode)
 
 routes.post('/stock-movements', authMiddlewares, StockMovementsController.store)
 routes.get('/stock-movements', authMiddlewares, StockMovementsController.index)
