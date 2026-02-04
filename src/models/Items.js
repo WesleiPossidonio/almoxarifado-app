@@ -14,6 +14,7 @@ class Items extends Model {
         control_level: Sequelize.ENUM('FREE', 'RESTRICTED'),
         item_name: Sequelize.STRING,
         unit: Sequelize.STRING,
+        sector_name: Sequelize.STRING,
         code: Sequelize.STRING,
         quantity: Sequelize.INTEGER,
         min_quantity: Sequelize.INTEGER,

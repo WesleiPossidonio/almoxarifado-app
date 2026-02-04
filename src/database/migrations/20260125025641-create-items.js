@@ -25,6 +25,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      sector_name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       code: {
         type: Sequelize.STRING,
         allowNull: false,
