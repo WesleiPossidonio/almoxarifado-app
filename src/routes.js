@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import CategoryController from './controllers/CategoryController'
-import ClientController from './controllers/ClientController'
-import ItemController from './controllers/ItemController'
-import SessionsController from './controllers/SessionsController'
-import StockMovementsController from './controllers/StockMovementsController'
+import CategoryController from './App/controllers/CategoryController.js'
+import ClientController from './App/controllers/ClientController'
+import ItemController from './App/controllers/ItemController'
+import SessionsController from './App/controllers/SessionsController'
+import StockMovementsController from './App/controllers/StockMovementsController'
 
-import authMiddlewares from './meddleawares/auth.js'
-import UsersController from './controllers/UsersController.js'
+import authMiddlewares from './App/meddleawares/auth.js'
+import UsersController from './App/controllers/UsersController.js'
 
 const routes = new Router()
 console.log('Routes file loaded')
