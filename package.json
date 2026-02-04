@@ -8,6 +8,7 @@
     "start": "node dist/server.js",
     "debug": "nodemon --inspect"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
