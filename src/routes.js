@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import CategoryController from './app/controllers/CategoryController.js'
-import ClientController from './app/controllers/ClientController'
-import ItemController from './app/controllers/ItemController'
-import SessionsController from './app/controllers/SessionsController'
-import StockMovementsController from './app/controllers/StockMovementsController'
+import ClientController from './app/controllers/ClientController.js'
+import ItemController from './app/controllers/ItemController.js'
+import SessionsController from './app/controllers/SessionsController.js'
+import StockMovementsController from './app/controllers/StockMovementsController.js'
 
 import authMiddlewares from './app/meddleawares/auth.js'
 import UsersController from './app/controllers/UsersController.js'
