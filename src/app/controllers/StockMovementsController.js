@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import sequelize from '../database/index.js'
+import sequelize from '../../database/index.js'
 import StockMovements from '../models/StockMovements.js'
 import Items from '../models/Items.js'
 
