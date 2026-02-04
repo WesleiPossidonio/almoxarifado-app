@@ -1,10 +1,10 @@
 import Sequelize from 'sequelize'
 import configDataBase from '../config/database.js'
-import Category from '../App/models/Category.js'
-import Items from '../App/models/Items.js'
-import Clients from '../App/models/Clients.js'
-import Users from '../App/models/Users.js'
-import StockMovements from '../App/models/StockMovements.js'
+import Category from '../app/models/Category.js'
+import Items from '../app/models/Items.js'
+import Clients from '../app/models/Clients.js'
+import Users from '../app/models/Users.js'
+import StockMovements from '../app/models/StockMovements.js'
 
 const models = [Category, Items, Clients, Users, StockMovements]
 class Database {
