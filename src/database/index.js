@@ -5,8 +5,16 @@ import Items from '../app/models/Items.js'
 import Clients from '../app/models/Clients.js'
 import Users from '../app/models/Users.js'
 import StockMovements from '../app/models/StockMovements.js'
+import CategorySection from '../app/models/CategorySection.js'
 
-const models = [Category, Items, Clients, Users, StockMovements]
+const models = [
+  CategorySection,
+  Category,
+  Items,
+  Clients,
+  Users,
+  StockMovements,
+]
 class Database {
   constructor() {
     this.init()

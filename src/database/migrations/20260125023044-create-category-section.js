@@ -3,19 +3,12 @@
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('category', {
+    await queryInterface.createTable('category_section', {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         allowNull: false,
-      },
-      category_section_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: { model: 'category_section', key: 'id' },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE',
       },
       name: {
         type: Sequelize.STRING,

@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize'
 
-class Category extends Model {
+class CategorySection extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -15,16 +15,11 @@ class Category extends Model {
   }
 
   static associate(models) {
-    this.hasMany(models.Items, {
-      foreignKey: 'category_id',
-      as: 'items',
-    })
-
-    this.belongsTo(models.CategorySection, {
+    this.hasMany(models.Category, {
       foreignKey: 'category_section_id',
-      as: 'category',
+      as: 'category_section',
     })
   }
 }
 
-export default Category
+export default CategorySection

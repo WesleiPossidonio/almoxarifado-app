@@ -7,6 +7,7 @@ import StockMovementsController from './app/controllers/StockMovementsController
 
 import authMiddlewares from './app/meddleawares/auth.js'
 import UsersController from './app/controllers/UsersController.js'
+import CategorySectionController from './app/controllers/CategorySectionController.js'
 
 const routes = new Router()
 console.log('Routes file loaded')
@@ -21,6 +22,10 @@ routes.post('/sessions', SessionsController.store)
 routes.post('/categories', CategoryController.store)
 routes.get('/categories', CategoryController.index)
 routes.delete('/categories/:id', CategoryController.delete)
+
+routes.post('/categories-section', CategorySectionController.store)
+routes.get('/categories-section', CategorySectionController.index)
+routes.delete('/categories-section/:id', CategorySectionController.delete)
 
 routes.post('/clients', ClientController.store)
 routes.get('/clients', ClientController.index)
