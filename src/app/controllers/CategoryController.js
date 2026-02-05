@@ -4,6 +4,7 @@ class CategoryController {
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
+      category_section_id: Yup.number().required(),
     })
 
     try {
@@ -14,7 +15,7 @@ class CategoryController {
         .json({ error: 'Validation fails', messages: err.inner })
     }
 
-    const { name } = req.body
+    const { name, category_section_id } = req.body
 
     const categoryExists = await Category.findOne({ where: { name } })
 
@@ -22,7 +23,7 @@ class CategoryController {
       return res.status(400).json({ error: 'Category already exists.' })
     }
 
-    const category = await Category.create(req.body)
+    const category = await Category.create({ name, category_section_id })
 
     return res.json(category)
   }
