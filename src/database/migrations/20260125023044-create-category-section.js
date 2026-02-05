@@ -26,6 +26,6 @@ export default {
   },
 
   async down(queryInterface) {
-    await queryInterface.dropTable('category')
+    await queryInterface.dropTable('category_section')
   },
 }

@@ -22,7 +22,7 @@ class Category extends Model {
 
     this.belongsTo(models.CategorySection, {
       foreignKey: 'category_section_id',
-      as: 'category',
+      as: 'section',
     })
   }
 }

@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import Category from '../models/Category.js'
+import CategorySection from '../models/CategorySection.js'
 class CategorySectionController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -16,26 +16,26 @@ class CategorySectionController {
 
     const { name } = req.body
 
-    const categoryExists = await Category.findOne({ where: { name } })
+    const categoryExists = await CategorySection.findOne({ where: { name } })
 
     if (categoryExists) {
       return res.status(400).json({ error: 'Category already exists.' })
     }
 
-    const category = await Category.create(req.body)
+    const category = await CategorySection.create(req.body)
 
     return res.json(category)
   }
 
   async index(req, res) {
-    const categoryList = await Category.findAll()
+    const categoryList = await CategorySection.findAll()
     return res.json(categoryList)
   }
 
   async delete(req, res) {
     const { id } = req.params
 
-    const category = await Category.findByPk(id)
+    const category = await CategorySection.findByPk(id)
 
     if (!category) {
       return res.status(404).json({ error: 'Category not found.' })

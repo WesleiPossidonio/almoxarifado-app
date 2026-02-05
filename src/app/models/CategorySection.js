@@ -8,7 +8,7 @@ class CategorySection extends Model {
       },
       {
         sequelize,
-        tableName: 'category',
+        tableName: 'category_section',
       },
     )
     return this
@@ -17,7 +17,7 @@ class CategorySection extends Model {
   static associate(models) {
     this.hasMany(models.Category, {
       foreignKey: 'category_section_id',
-      as: 'category_section',
+      as: 'categories_section',
     })
   }
 }
