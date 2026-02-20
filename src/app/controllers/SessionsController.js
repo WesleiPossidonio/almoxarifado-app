@@ -21,7 +21,7 @@ class SessionController {
 
     if (user && (await user.checkPassword(password))) {
       const token = jwt.sign(
-        { id: user.id, role: 'admin' },
+        { id: user.id, role: 'admin', name: user.name },
         authConfig.secret,
         { expiresIn: authConfig.expiresIn },
       )
@@ -30,7 +30,7 @@ class SessionController {
         token,
         name: user.name,
         email: user.email,
-        role: 'admin',
+        role: user.role,
       })
     }
 

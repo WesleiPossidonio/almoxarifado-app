@@ -17,7 +17,9 @@ class CategoryController {
 
     const { name, category_section_id } = req.body
 
-    const categoryExists = await Category.findOne({ where: { name } })
+    const categoryExists = await Category.findOne({
+      where: { name, category_section_id },
+    })
 
     if (categoryExists) {
       return res.status(400).json({ error: 'Category already exists.' })

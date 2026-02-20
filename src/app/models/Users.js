@@ -5,16 +5,24 @@ class Users extends Model {
   static init(sequelize) {
     super.init(
       {
+        id: {
+          type: Sequelize.UUID,
+          defaultValue: Sequelize.UUIDV4,
+          allowNull: false,
+          primaryKey: true,
+        },
         name: Sequelize.STRING,
         email: Sequelize.STRING,
         password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
-        rules: Sequelize.STRING,
+        role: Sequelize.STRING,
         update_number: Sequelize.STRING,
       },
       {
         sequelize,
         tableName: 'users',
+        timestamps: true,
+        underscored: false,
       },
     )
 

@@ -33,7 +33,6 @@ routes.delete('/clients/:id', ClientController.delete)
 
 routes.post('/users', UsersController.store)
 routes.get('/users', UsersController.index)
-routes.delete('/users/:id', UsersController.delete)
 
 routes.post('/items', ItemController.store)
 routes.get('/items', ItemController.index)
@@ -41,7 +40,13 @@ routes.put('/items/:id', ItemController.update)
 routes.delete('/items/:id', ItemController.delete)
 routes.get('/items/code/:code', ItemController.findByCode)
 
-routes.post('/stock-movements', authMiddlewares, StockMovementsController.store)
-routes.get('/stock-movements', authMiddlewares, StockMovementsController.index)
+routes.use(authMiddlewares)
+routes.post('/stock-movements', StockMovementsController.store)
+routes.get('/stock-movements', StockMovementsController.index)
 
+routes.patch('/me', UsersController.updateMe)
+routes.patch('/me/password', UsersController.updateMyPassword)
+
+routes.patch('/users/:id', UsersController.updateOtherUser)
+routes.delete('/users/:id', UsersController.delete)
 export default routes

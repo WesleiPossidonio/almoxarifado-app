@@ -10,14 +10,45 @@ class StockMovements extends Model {
           allowNull: false,
           primaryKey: true,
         },
-        item_id: Sequelize.UUID,
-        item_name_snapshot: Sequelize.STRING,
-        movement_type: Sequelize.ENUM('IN', 'OUT'),
-        quantity: Sequelize.INTEGER,
-        client_id: Sequelize.UUID,
-        withdrawn_by: Sequelize.STRING,
-        authorized_by: Sequelize.STRING,
-        note: Sequelize.STRING,
+        item_id: {
+          type: Sequelize.UUID,
+          allowNull: false,
+        },
+        item_name_snapshot: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        movement_type: {
+          type: Sequelize.ENUM('IN', 'OUT'),
+          allowNull: false,
+        },
+        quantity: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          validate: {
+            min: 1,
+          },
+        },
+        client_id: {
+          type: Sequelize.UUID,
+          allowNull: true,
+        },
+        withdrawn_by: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        added_by: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        authorized_by: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
+        note: {
+          type: Sequelize.STRING,
+          allowNull: true,
+        },
       },
       {
         sequelize,

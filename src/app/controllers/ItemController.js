@@ -4,6 +4,7 @@ import Items from '../models/Items.js'
 class ItemController {
   async store(req, res) {
     const schema = Yup.object().shape({
+      category_id: Yup.number().required(),
       item_name: Yup.string().required(),
       unit: Yup.string().required(),
       quantity: Yup.number().required(),
@@ -11,7 +12,7 @@ class ItemController {
       location: Yup.string().nullable(),
       code: Yup.string().required(),
       sector_name: Yup.string().required(),
-      control_level: Yup.string().required(),
+      control_level: Yup.string().oneOf(['FREE', 'RESTRICTED']).required(),
     })
 
     try {
@@ -30,9 +31,10 @@ class ItemController {
       location,
       code,
       sector_name,
+      category_id,
     } = req.body
 
-    const itemExists = await Items.findOne({ where: { item_name } })
+    const itemExists = await Items.findOne({ where: { item_name, code } })
 
     if (itemExists) {
       return res.status(400).json({ error: 'Item already exists.' })
@@ -46,6 +48,7 @@ class ItemController {
       location,
       code,
       sector_name,
+      category_id,
     })
 
     return res.json(item)

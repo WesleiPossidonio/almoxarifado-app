@@ -8,19 +8,16 @@ export default (request, response, next) => {
     return response.status(401).json({ error: 'Token not provided' })
   }
 
-  const token = authToken.split(' ')[1]
+  const [, token] = authToken.split(' ')
 
   try {
-    Jwt.verify(token, authConfig.secret, function (err, decoded) {
-      if (err) {
-        throw new Error()
-      }
+    const decoded = Jwt.verify(token, authConfig.secret)
 
-      request.userId = decoded.id
-      request.userName = decoded.name
-    })
+    request.userId = decoded.id
+    request.userName = decoded.name
+
+    return next()
   } catch {
     return response.status(401).json({ error: 'Token is invalid' })
   }
-  return next()
 }

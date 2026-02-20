@@ -1,5 +1,7 @@
 import * as Yup from 'yup'
 import CategorySection from '../models/CategorySection.js'
+import Category from '../models/Category.js'
+import Items from '../models/Items.js'
 class CategorySectionController {
   async store(req, res) {
     const schema = Yup.object().shape({
@@ -28,7 +30,30 @@ class CategorySectionController {
   }
 
   async index(req, res) {
-    const categoryList = await CategorySection.findAll()
+    const categoryList = await CategorySection.findAll({
+      include: [
+        {
+          model: Category,
+          as: 'categories',
+          attributes: ['id', 'name'],
+          include: [
+            {
+              model: Items,
+              as: 'items',
+              attributes: [
+                'id',
+                'item_name',
+                'quantity',
+                'min_quantity',
+                'unit',
+                'code',
+              ],
+            },
+          ],
+        },
+      ],
+    })
+
     return res.json(categoryList)
   }
 

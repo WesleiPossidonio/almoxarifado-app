@@ -2,7 +2,7 @@ import { v4 } from 'uuid'
 import validator from 'validator'
 
 import * as Yup from 'yup'
-import User from '../models/Users.js'
+import Users from '../models/Users.js'
 
 // Função de sanitização reutilizável
 const sanitizeInput = (data) => {
@@ -20,7 +20,7 @@ class UsersController {
       name: Yup.string().required(),
       email: Yup.string().email().required(),
       password: Yup.string().required().min(6),
-      role: Yup.string().email().required(),
+      role: Yup.string().oneOf(['admin', 'user']).required(),
       update_number: Yup.string().optional(),
     })
 
@@ -32,13 +32,13 @@ class UsersController {
       return response.status(400).json({ error: err.errors })
     }
 
-    const { name, email, password, role } = sanitizedBody
+    const { name, email, password, role, update_number } = sanitizedBody
 
-    const emailUserExists = await User.findOne({
+    const emailUserExists = await Users.findOne({
       where: { email },
     })
 
-    const nameUserExists = await User.findOne({
+    const nameUserExists = await Users.findOne({
       where: { name },
     })
 
@@ -50,89 +50,80 @@ class UsersController {
       return response.status(409).json({ error: 'Name user already exists' })
     }
 
-    await User.create({
+    await Users.create({
       id: v4(),
       name,
       email,
       password,
       role,
+      update_number,
     })
 
     return response.status(201).json({ message: 'User created successfully' })
   }
 
   async index(request, response) {
-    const listExercices = await User.findAll()
+    const listExercices = await Users.findAll()
     return response.json(listExercices)
   }
 
-  async update(request, response) {
-    const schema = Yup.object().shape({
-      update_number: Yup.string().optional(),
-      password: Yup.string().optional().min(6),
-      name: Yup.string().optional(),
-      email: Yup.string().email().optional(),
+  async updateMe(request, response) {
+    const schema = Yup.object({
+      name: Yup.string(),
+      email: Yup.string().email(),
     })
 
-    const sanitizedBody = sanitizeInput(request.body)
+    await schema.validate(request.body)
 
-    try {
-      await schema.validateSync(sanitizedBody, { abortEarly: false })
-    } catch (err) {
-      return response.status(400).json({ error: err.errors })
-    }
+    const user = await Users.findByPk(request.userId)
+    if (!user) return response.status(404).json({ error: 'User not found' })
 
-    const { password, update_number, name, email } = sanitizedBody
-    const { id } = request.params // Assumindo que `id` seja passado na URL (ex: /users/:id)
+    Object.assign(user, request.body)
+    await user.save()
 
-    if (update_number && !id) {
-      const verificationNumber = await User.findOne({
-        where: { update_number },
-      })
-
-      if (!verificationNumber) {
-        return response.status(400).json({ error: 'Invalid update number' })
-      }
-
-      const user = await User.findOne({
-        where: { update_number },
-      })
-
-      if (password) user.password = password
-      await user.save()
-
-      return response
-        .status(200)
-        .json({ message: 'Password updated successfully' })
-    }
-
-    const verificationUser = await User.findOne({
-      where: { id },
-    })
-
-    if (!verificationUser) {
-      return response.status(404).json({ error: 'User not found' })
-    }
-
-    if (name) verificationUser.name = name
-    if (email) verificationUser.email = email
-    if (password) verificationUser.password = password
-
-    await verificationUser.save()
-    return response.status(200).json({ message: 'User updated successfully' })
+    return response.json({ message: 'Profile updated' })
   }
 
-  async delete(request, response) {
-    const { id } = request.params
+  async updateMyPassword(request, response) {
+    const schema = Yup.object({
+      oldPassword: Yup.string().required(),
+      password: Yup.string().min(6).required(),
+    })
 
-    const user = await User.findOne({ where: { id } })
+    await schema.validate(request.body)
 
-    if (!user) {
-      return response.status(404).json({ error: 'User not found' })
+    const user = await Users.findByPk(request.userId)
+
+    if (!(await user.checkPassword(request.body.oldPassword))) {
+      return response.status(401).json({ error: 'Wrong password' })
     }
 
+    user.password = request.body.password
+    await user.save()
+
+    return response.json({ message: 'Password updated' })
+  }
+
+  async updateOtherUser(req, response) {
+    const { id } = req.params
+
+    const user = await Users.findByPk(id)
+    if (!user) return response.status(404).json({ error: 'User not found' })
+
+    Object.assign(user, req.body)
+    await user.save()
+
+    return response.json({ message: 'User updated by admin' })
+  }
+
+  async delete(request, res) {
+    const { id } = request.params
+
+    const user = await Users.findByPk(id)
+    if (!user) return res.status(404).json({ error: 'User not found' })
+
     await user.destroy()
-    return response.status(200).json({ message: 'User deleted successfully' })
+    return res.json({ message: 'User deleted' })
   }
 }
 

@@ -17,7 +17,7 @@ class CategorySection extends Model {
   static associate(models) {
     this.hasMany(models.Category, {
       foreignKey: 'category_section_id',
-      as: 'categories_section',
+      as: 'categories',
     })
   }
 }
